@@ -16,6 +16,10 @@ export class AuthService {
   }
 
   login(payload: UserLogin) {
-    return this.httpClient.post<{}>(this.baseUrl + '/login', payload, {withCredentials: true}).subscribe();
+    return this.httpClient.post<{}>(this.baseUrl + '/login', payload, {withCredentials: true});
+  }
+
+  getUsers() {
+    return this.httpClient.get<{}>(this.baseUrl + '/users', {withCredentials: true});
   }
 }

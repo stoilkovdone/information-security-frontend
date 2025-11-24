@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import {NgIf} from '@angular/common';
 import {AuthService} from '../_service/auth.service';
 import {UserLogin} from '../_model/user-login';
+import {switchMap, take} from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -44,7 +45,11 @@ export class LoginComponent implements OnInit{
         password: this.loginForm.get('password')?.value
       }
 
-      this.authService.login(userLogin);
+      this.authService.login(userLogin)
+        .pipe(
+          take(1),
+          switchMap(() => this.authService.getUsers()))
+        .subscribe(data => console.log(data));
     }
   }
 }

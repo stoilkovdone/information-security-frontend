@@ -41,19 +41,13 @@ export class RegistrationComponent implements OnInit{
   }
 
   onSubmit() {
-    console.log('heheh', this.registrationForm.valid)
+
     if (this.registrationForm.valid) {
-      console.log('heheh', this.registrationForm.get('username')?.value)
-      console.log('heheh', this.registrationForm.get('email')?.value)
-      console.log('heheh', this.registrationForm.get('password')?.value)
-      console.log('heheh', this.registrationForm)
       const userRegister: UserRegister = {
         username: this.registrationForm.get('username')?.value,
         email: this.registrationForm.get('email')?.value,
         password: this.registrationForm.get('password')?.value
       }
-
-      console.log(userRegister)
 
       this.authService.register(userRegister);
     }

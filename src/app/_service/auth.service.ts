@@ -2,6 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import {UserRegister} from '../_model/user-register';
 import {UserLogin} from '../_model/user-login';
+import {VerifyOtp} from '../_model/verify-otp.model';
 
 @Injectable({providedIn: "root"})
 export class AuthService {
@@ -16,7 +17,12 @@ export class AuthService {
   }
 
   login(payload: UserLogin) {
-    return this.httpClient.post<{}>(this.baseUrl + '/login', payload, {withCredentials: true});
+    return this.httpClient.post<{}>(this.baseUrl + '/login', payload);
+  }
+
+  verifyOtp(verifyOtp: VerifyOtp) {
+    console.log(verifyOtp)
+    return this.httpClient.post<{}>(this.baseUrl + '/verify-otp', verifyOtp);
   }
 
   logout() {

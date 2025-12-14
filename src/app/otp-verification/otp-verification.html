@@ -1,0 +1,71 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <mat-card>
+        <mat-card-content class="text-center py-4">
+          <div class="mb-4">
+            <mat-icon color="primary" style="font-size: 80px; width: 80px; height: 80px;">
+              lock
+            </mat-icon>
+          </div>
+
+          <h2 class="mb-3">Enter Verification Code</h2>
+
+          <p class="text-muted mb-4">
+            We've sent an 8-digit code to <strong>{{ userEmail() }}</strong>
+          </p>
+
+          <form [formGroup]="otpForm" (ngSubmit)="verifyOtp()">
+            <div class="mb-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Enter 8-digit code</mat-label>
+                <input
+                  matInput
+                  formControlName="otp"
+                  placeholder="12345678"
+                  maxlength="8"
+                  inputmode="numeric"
+                  autocomplete="off">
+                <mat-icon matPrefix>dialpad</mat-icon>
+                @if (otpForm.get('otp')?.hasError('required') && otpForm.get('otp')?.touched) {
+                  <mat-error>OTP is required</mat-error>
+                }
+                @if (otpForm.get('otp')?.hasError('pattern') || otpForm.get('otp')?.hasError('minlength')) {
+                  <mat-error>Please enter a valid 8-digit code</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            @if (error()) {
+              <div class="alert alert-danger mb-4" role="alert">
+                <mat-icon class="align-middle me-2">error</mat-icon>
+                <small>{{ errorMessage() }}</small>
+              </div>
+            }
+
+            <div class="d-grid gap-2">
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                [disabled]="otpForm.invalid || loading()">
+                @if (loading()) {
+                  <span>Verifying...</span>
+                } @else {
+                  <span>Verify Code</span>
+                }
+              </button>
+
+              <button
+                mat-stroked-button
+                type="button"
+                (click)="goToLogin()">
+                Back to Login
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -7,7 +7,6 @@ import { MatCardModule } from '@angular/material/card';
 import {NgIf} from '@angular/common';
 import {AuthService} from '../_service/auth.service';
 import {UserLogin} from '../_model/user-login';
-import {switchMap, take} from 'rxjs';
 import {Router} from '@angular/router';
 
 @Component({

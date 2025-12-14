@@ -3,13 +3,13 @@
     <div class="col-md-6">
       <mat-card>
         <mat-card-content class="text-center py-4">
-          @if (loading) {
+          @if (loading()) {
             <mat-spinner class="mx-auto mb-3"></mat-spinner>
             <p>Verifying your email...</p>
           }
 
-          @if (success) {
-            <mat-icon class="display-1 text-success mb-3">check_circle</mat-icon>
+          @if (success()) {
+            <mat-icon>check_circle</mat-icon>
             <h2>Email Verified!</h2>
             <p class="mb-4">Your email has been successfully verified.</p>
             <button mat-raised-button color="primary" (click)="goToLogin()">
@@ -17,11 +17,11 @@
             </button>
           }
 
-          @if (error) {
-            <mat-icon class="display-1 text-danger mb-3">error</mat-icon>
+          @if (error()) {
+            <mat-icon>error</mat-icon>
             <h2>Verification Failed</h2>
-            <p class="mb-4">{{ errorMessage }}</p>
-            @if (canResend) {
+            <p class="mb-4">{{ errorMessage() }}</p>
+            @if (canResend()) {
               <button mat-raised-button color="primary" class="me-2" (click)="resendEmail()">
                 Resend Verification Email
               </button>

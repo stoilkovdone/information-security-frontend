@@ -8,6 +8,7 @@ import {NgIf} from '@angular/common';
 import {AuthService} from '../_service/auth.service';
 import {UserLogin} from '../_model/user-login';
 import {switchMap, take} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit{
   loginForm!: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private authService: AuthService) {}
+              private authService: AuthService,
+              private router: Router) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -45,11 +47,9 @@ export class LoginComponent implements OnInit{
         password: this.loginForm.get('password')?.value
       }
 
-      this.authService.login(userLogin)
-        .pipe(
-          take(1),
-          switchMap(() => this.authService.getUsers()))
-        .subscribe(data => console.log(data));
+      this.authService.login(userLogin).subscribe(
+        () => this.router.navigate(['/login-success']),
+      );
     }
   }
 }

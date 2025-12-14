@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, signal} from '@angular/core';
 import {MatButton} from '@angular/material/button';
 import {MatCard, MatCardContent} from '@angular/material/card';
 import {MatIcon} from '@angular/material/icon';
@@ -20,11 +20,11 @@ import {AuthService} from '../_service/auth.service';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class VerifyEmailComponent implements OnInit{
-  loading = true;
-  success = false;
-  error = false;
-  errorMessage = '';
-  canResend = false;
+  loading = signal(false);
+  success = signal(false);
+  error = signal(false);
+  errorMessage = signal('');
+  canResend = signal(false);
   private token: string = '';
 
   constructor(
@@ -34,9 +34,11 @@ export class VerifyEmailComponent implements OnInit{
   ) {}
 
   ngOnInit() {
+    this.loading.set(true);
     this.token = this.route.snapshot.queryParams['token'];
 
     if (!this.token) {
+      this.loading.set(false);
       this.showError('Invalid verification link');
       return;
     }
@@ -47,20 +49,20 @@ export class VerifyEmailComponent implements OnInit{
   verifyEmail() {
     this.authService.verifyEmail(this.token).subscribe({
       next: () => {
-        this.loading = false;
-        this.success = true;
+        this.loading.set(false);
+        this.success.set(true);
       },
       error: (err) => {
-        this.loading = false;
+        this.loading.set(false);
         this.showError(err.error?.message || 'Verification failed');
       }
     });
   }
 
   showError(message: string) {
-    this.error = true;
-    this.errorMessage = message;
-    this.canResend = message.includes('expired');
+    this.error.set(true);
+    this.errorMessage.set(message);
+    this.canResend.set(message.includes('expired'));
   }
 
   resendEmail() {

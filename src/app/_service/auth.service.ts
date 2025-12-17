@@ -21,16 +21,19 @@ export class AuthService {
   }
 
   verifyOtp(verifyOtp: VerifyOtp) {
-    console.log(verifyOtp)
-    return this.httpClient.post<{}>(this.baseUrl + '/verify-otp', verifyOtp);
+    return this.httpClient.post<{}>(this.baseUrl + '/verify-otp', verifyOtp, {withCredentials: true});
   }
 
   logout() {
-    return this.httpClient.post<{}>(this.baseUrl + '/logout', {withCredentials: true});
+    return this.httpClient.post<{}>(this.baseUrl + '/logout', null, {withCredentials: true});
   }
 
   verifyEmail(token: string) {
     const params = new HttpParams().set('verificationToken', token);
-    return this.httpClient.post(`${this.baseUrl}/verify-email`, null, {params});
+    return this.httpClient.post(`${this.baseUrl}/verify-email`, null, {params, withCredentials: true});
+  }
+
+  getUsers() {
+    return this.httpClient.get(`${this.baseUrl}/users`, {withCredentials: true});
   }
 }

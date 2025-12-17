@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,10 +17,16 @@ import {Router} from '@angular/router';
   ],
   templateUrl: './login-success.html'
 })
-export class LoginSuccess {
+export class LoginSuccess implements OnInit {
 
   constructor(private authService: AuthService,
               private router: Router) {
+  }
+
+  ngOnInit() {
+    this.authService.getUsers().subscribe(
+      (users) => console.log(users)
+    );
   }
 
   onLogout() {
